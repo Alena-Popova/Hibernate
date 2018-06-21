@@ -1,3 +1,4 @@
+import Entity.RoleEntity;
 import Entity.UsersEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -5,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.metadata.ClassMetadata;
+import services.RoleService;
 import services.UserService;
 
 import java.text.ParseException;
@@ -51,8 +53,12 @@ public class Main {
 
     public static void main(String[] args) {
         UserService userService = new UserService();
+        RoleService roleService = new RoleService();
         try {
-            UsersEntity user = new UsersEntity(104, "emailHibernateTest5@mail.ru", "root");
+            RoleEntity roleEntity = new RoleEntity(1, "surgion");
+            roleService .saveRole(roleEntity);
+            roleService.updateRole(roleEntity);
+            UsersEntity user = new UsersEntity(109, "emailHibernateTest9@mail.ru", "root");
             userService.saveUser(user);
             userService.updateUser(user);
         } catch (ParseException pe) {

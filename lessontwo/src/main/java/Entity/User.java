@@ -1,35 +1,32 @@
 package Entity;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Entity
-@Table(name = "users", schema = "userlist")
-public class UsersEntity {
+@Table(name = "users")
+public class User {
     private int id;
     private String email;
     private String password;
     private Calendar timeregistration;
+    private Role role;
 
-   /* @ManyToOne
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;*/
-
-    public UsersEntity() {
+    public User() {
     }
 
-    public UsersEntity(int sId, String sEmail, String sPassword) throws ParseException {
+    public User(int sId, String sEmail, String sPassword,Role sRole) throws ParseException {
         this.id = sId;
         this.email = sEmail;
         this.password = sPassword;
         Calendar c = new GregorianCalendar();
         this.timeregistration = c;
+        this.role = sRole;
     }
 
     @Id
@@ -73,22 +70,24 @@ public class UsersEntity {
         this.timeregistration = createDate;
     }
 
-   /* @Basic
+    @ManyToOne
+    @JoinColumn(name = "id")
+    @Basic
     @Column(name = "role", nullable = true)
-    public RoleEntity getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(RoleEntity role) {
+    public void setRole(Role role) {
         this.role = role;
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UsersEntity that = (UsersEntity) o;
+        User that = (User) o;
 
         if (id != that.id) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
@@ -107,5 +106,4 @@ public class UsersEntity {
         result = 31 * result + (timeregistration != null ? timeregistration.hashCode() : 0);
         return result;
     }
-
 }
